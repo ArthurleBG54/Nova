@@ -58,7 +58,7 @@
             display: flex; flex-direction: column; gap: 20px;
         }
 
-        .message { max-width: 80%; padding: 15px; border-radius: 12px; line-height: 1.5; font-size: 0.95rem; }
+        .message { max-width: 80%; padding: 15px; border-radius: 12px; line-height: 1.5; font-size: 0.95rem; white-space: pre-wrap; }
         .ai-msg { background: var(--sidebar-bg); border: 1px solid var(--border); align-self: flex-start; }
         .user-msg { background: var(--nova-purple); color: white; align-self: flex-end; }
 
@@ -126,8 +126,8 @@
                 Bonjour ! Je suis **Nova**, ton assistante spécialisée en <span id="ia-type-text">E-commerce</span>. Je peux t'aider à trouver un produit gagnant ou structurer ta boutique dropshipping.
                 
                 <div class="action-group" id="ecom-actions">
-                    <button class="action-btn" onclick="sendMessage('Trouve-moi un produit gagnant 💎')">💎 Trouver un Winner</button>
-                    <button class="action-btn" onclick="sendMessage('Aide-moi à créer ma boutique 🏗️')">🏗️ Créer ma Boutique</button>
+                    <button class="action-btn" onclick="askNova('Trouve-moi un produit gagnant 💎')">💎 Trouver un Winner</button>
+                    <button class="action-btn" onclick="askNova('Aide-moi à créer ma boutique 🏗️')">🏗️ Créer ma Boutique</button>
                     <button class="action-btn btn-locked">📦 Sourceur (Bientôt)</button>
                 </div>
             </div>
@@ -136,59 +136,11 @@
         <div class="input-container">
             <div class="input-box">
                 <input type="text" id="user-input" placeholder="Pose ta question à Nova...">
-                <button class="send-btn" onclick="sendMessage()">Envoyer</button>
+                <button class="send-btn" onclick="askNova()">Envoyer</button>
             </div>
         </div>
     </div>
 
-    <script>
-        function switchIA(type) {
-            document.getElementById('current-ia-title').innerText = 'Nova ' + type;
-            document.getElementById('ia-type-text').innerText = type;
-            
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            let welcomeMsg = `Mode <strong>Nova ${type}</strong> activé. Que puis-je faire pour vous ?`;
-            let actions = '';
-
-            if(type === 'E-commerce') {
-                actions = `
-                <div class="action-group">
-                    <button class="action-btn" onclick="sendMessage('Trouve-moi un produit gagnant 💎')">💎 Trouver un Winner</button>
-                    <button class="action-btn" onclick="sendMessage('Aide-moi à créer ma boutique 🏗️')">🏗️ Créer ma Boutique</button>
-                    <button class="action-btn btn-locked">📦 Sourceur (Bientôt)</button>
-                </div>`;
-            }
-
-            document.getElementById('chat-window').innerHTML = `
-                <div class="message ai-msg">
-                    ${welcomeMsg}
-                    ${actions}
-                </div>`;
-        }
-
-        function sendMessage(customMsg) {
-            const input = document.getElementById('user-input');
-            const window = document.getElementById('chat-window');
-            const text = customMsg || input.value;
-            
-            if (text.trim() !== "") {
-                window.innerHTML += `<div class="message user-msg">${text}</div>`;
-                
-                setTimeout(() => {
-                    let aiResponse = "Analyse en cours via les serveurs Nova...";
-                    if(text.includes('Winner')) aiResponse = "J'ai scanné TikTok Ads. Le produit 'Projecteur Galaxie 2.0' est en pleine explosion. Voulez-vous une description produit ?";
-                    if(text.includes('Boutique')) aiResponse = "Je prépare une structure Shopify optimisée. Donnez-moi juste le nom de votre niche.";
-                    
-                    window.innerHTML += `<div class="message ai-msg">${aiResponse}</div>`;
-                    window.scrollTop = window.scrollHeight;
-                }, 1000);
-
-                input.value = "";
-                window.scrollTop = window.scrollHeight;
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
