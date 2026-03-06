@@ -33,12 +33,14 @@
         .nav-item {
             padding: 12px 15px; border-radius: 8px; margin-bottom: 5px;
             cursor: pointer; color: var(--text-dim); transition: 0.3s;
-            font-size: 0.9rem; display: flex; align-items: center;
+            font-size: 0.9rem; display: flex; align-items: center; gap: 10px;
         }
 
         .nav-item:hover, .nav-item.active {
             background: rgba(139, 92, 246, 0.1); color: var(--nova-purple);
         }
+
+        .shopify-icon { width: 18px; height: 18px; fill: currentColor; }
 
         /* --- CHAT AREA --- */
         .main-chat {
@@ -56,9 +58,19 @@
             display: flex; flex-direction: column; gap: 20px;
         }
 
-        .message { max-width: 80%; padding: 15px; border-radius: 12px; line-height: 1.5; }
+        .message { max-width: 80%; padding: 15px; border-radius: 12px; line-height: 1.5; font-size: 0.95rem; }
         .ai-msg { background: var(--sidebar-bg); border: 1px solid var(--border); align-self: flex-start; }
         .user-msg { background: var(--nova-purple); color: white; align-self: flex-end; }
+
+        /* --- BOUTONS ACTIONS --- */
+        .action-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .action-btn {
+            background: rgba(139, 92, 246, 0.1); border: 1px solid var(--nova-purple);
+            color: white; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+            font-size: 0.8rem; transition: 0.3s;
+        }
+        .action-btn:hover { background: var(--nova-purple); color: black; }
+        .btn-locked { opacity: 0.5; cursor: not-allowed; border-color: #444; }
 
         /* --- INPUT AREA --- */
         .input-container {
@@ -67,7 +79,7 @@
 
         .input-box {
             background: #111; border: 1px solid var(--border);
-            padding: 15px 25px; border-radius: 100px;
+            padding: 12px 25px; border-radius: 100px;
             display: flex; align-items: center; gap: 15px;
         }
 
@@ -86,7 +98,12 @@
 
     <div class="sidebar">
         <div class="logo">NOVA AI</div>
-        <div class="nav-item active" onclick="switchIA('E-commerce')">🛒 IA Ecommerce</div>
+        
+        <div class="nav-item active" onclick="switchIA('E-commerce')">
+            <svg class="shopify-icon" viewBox="0 0 24 24"><path d="M4.22 5.34l1.32-.23c.31-.05.53-.33.51-.64l-.19-2.61C5.83.84 6.64 0 7.66 0h8.67c1.03 0 1.83.84 1.8 1.86l-.19 2.61c-.02.31.2.59.51.64l1.32.23c1.47.25 2.5 1.63 2.29 3.12l-1.39 9.9c-.21 1.5-1.54 2.64-3.05 2.64H6.38c-1.51 0-2.84-1.14-3.05-2.64l-1.39-9.9c-.21-1.49.82-2.87 2.28-3.12zM12 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+            IA Ecommerce
+        </div>
+
         <div class="nav-item" onclick="switchIA('Trading')">📈 IA Trading</div>
         <div class="nav-item" onclick="switchIA('TikTok')">📱 IA TikTok</div>
         <div class="nav-item" onclick="switchIA('Marketing')">🎯 IA Marketing</div>
@@ -106,7 +123,13 @@
 
         <div id="chat-window">
             <div class="message ai-msg">
-                Bonjour ! Je suis **Nova**, ton assistante spécialisée en <span id="ia-type-text">E-commerce</span>. Comment puis-je t'aider à exploser tes résultats aujourd'hui ?
+                Bonjour ! Je suis **Nova**, ton assistante spécialisée en <span id="ia-type-text">E-commerce</span>. Je peux t'aider à trouver un produit gagnant ou structurer ta boutique dropshipping.
+                
+                <div class="action-group" id="ecom-actions">
+                    <button class="action-btn" onclick="sendMessage('Trouve-moi un produit gagnant 💎')">💎 Trouver un Winner</button>
+                    <button class="action-btn" onclick="sendMessage('Aide-moi à créer ma boutique 🏗️')">🏗️ Créer ma Boutique</button>
+                    <button class="action-btn btn-locked">📦 Sourceur (Bientôt)</button>
+                </div>
             </div>
         </div>
 
@@ -120,32 +143,45 @@
 
     <script>
         function switchIA(type) {
-            // Changer le titre
             document.getElementById('current-ia-title').innerText = 'Nova ' + type;
             document.getElementById('ia-type-text').innerText = type;
             
-            // Gérer l'état actif dans la sidebar
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             event.currentTarget.classList.add('active');
 
-            // Nettoyer le chat pour la nouvelle IA
+            let welcomeMsg = `Mode <strong>Nova ${type}</strong> activé. Que puis-je faire pour vous ?`;
+            let actions = '';
+
+            if(type === 'E-commerce') {
+                actions = `
+                <div class="action-group">
+                    <button class="action-btn" onclick="sendMessage('Trouve-moi un produit gagnant 💎')">💎 Trouver un Winner</button>
+                    <button class="action-btn" onclick="sendMessage('Aide-moi à créer ma boutique 🏗️')">🏗️ Créer ma Boutique</button>
+                    <button class="action-btn btn-locked">📦 Sourceur (Bientôt)</button>
+                </div>`;
+            }
+
             document.getElementById('chat-window').innerHTML = `
                 <div class="message ai-msg">
-                    Mode <strong>Nova ${type}</strong> activé. Je suis prête. Que veux-tu savoir ?
+                    ${welcomeMsg}
+                    ${actions}
                 </div>`;
         }
 
-        function sendMessage() {
+        function sendMessage(customMsg) {
             const input = document.getElementById('user-input');
             const window = document.getElementById('chat-window');
+            const text = customMsg || input.value;
             
-            if (input.value.trim() !== "") {
-                // Message utilisateur
-                window.innerHTML += `<div class="message user-msg">${input.value}</div>`;
+            if (text.trim() !== "") {
+                window.innerHTML += `<div class="message user-msg">${text}</div>`;
                 
-                // Simulation réponse IA
                 setTimeout(() => {
-                    window.innerHTML += `<div class="message ai-msg">Analyse en cours... (Connexion API Nova nécessaire pour une réponse réelle)</div>`;
+                    let aiResponse = "Analyse en cours via les serveurs Nova...";
+                    if(text.includes('Winner')) aiResponse = "J'ai scanné TikTok Ads. Le produit 'Projecteur Galaxie 2.0' est en pleine explosion. Voulez-vous une description produit ?";
+                    if(text.includes('Boutique')) aiResponse = "Je prépare une structure Shopify optimisée. Donnez-moi juste le nom de votre niche.";
+                    
+                    window.innerHTML += `<div class="message ai-msg">${aiResponse}</div>`;
                     window.scrollTop = window.scrollHeight;
                 }, 1000);
 
@@ -154,6 +190,5 @@
             }
         }
     </script>
-
 </body>
 </html>
