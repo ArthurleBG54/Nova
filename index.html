@@ -3,132 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSP - Votre Hub IA</title>
+    <title>NOVA - L'IA Multi-Services</title>
     <style>
         :root {
-            --bg-black: #0f0f0f;
-            --card-bg: #1a1a1a;
-            --primary-purple: #bb86fc;
-            --text-white: #e0e0e0;
+            --black: #050505;
+            --dark-grey: #121212;
+            --nova-purple: #9d4edd; /* Violet plus intense */
+            --nova-glow: #7b2cbf;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
         }
 
-        body {
-            background-color: var(--bg-black);
-            color: var(--text-white);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        body, html {
             margin: 0;
             padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--text-main);
+            scroll-behavior: smooth;
         }
+
+        /* --- SECTION AUTHENTIFICATION --- */
+        #auth-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%);
+        }
+
+        .auth-card {
+            background: var(--dark-grey);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--nova-purple);
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .auth-card h2 { color: var(--nova-purple); margin-bottom: 20px; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 12px;
+            background: var(--nova-purple);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover { background: var(--nova-glow); transform: scale(1.02); }
+
+        /* --- SECTION CONTENU (Masquée au début) --- */
+        #main-content { display: none; }
 
         header {
-            padding: 2rem;
+            padding: 60px 20px;
             text-align: center;
-            border-bottom: 1px solid var(--primary-purple);
+            background: linear-gradient(to bottom, #0f051a, var(--black));
         }
 
-        h1 {
-            color: var(--primary-purple);
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
+        .hero-title {
+            font-size: 4rem;
+            background: linear-gradient(to right, #fff, var(--nova-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 20px;
+        .description {
+            max-width: 700px;
+            margin: 20px auto;
+            color: var(--text-dim);
+            line-height: 1.6;
         }
 
-        .grid-ia {
+        .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 50px;
+            max-width: 1200px;
+            margin: auto;
         }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid #333;
+            background: var(--dark-grey);
+            padding: 30px;
             border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            cursor: pointer;
+            border: 1px solid #222;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary-purple);
-            box-shadow: 0 10px 20px rgba(187, 134, 252, 0.1);
+            border-color: var(--nova-purple);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.15);
         }
 
-        .card h3 {
-            color: var(--primary-purple);
-            margin-bottom: 1rem;
-        }
+        .card h3 { color: var(--nova-purple); margin-top: 0; }
 
-        .card p {
-            font-size: 0.9rem;
-            color: #bbb;
-        }
-
-        .btn-launch {
-            margin-top: 15px;
+        .tag {
+            font-size: 0.7rem;
+            background: rgba(157, 78, 221, 0.2);
+            color: var(--nova-purple);
+            padding: 4px 10px;
+            border-radius: 20px;
             display: inline-block;
-            padding: 10px 20px;
-            background: var(--primary-purple);
-            color: black;
-            font-weight: bold;
-            border-radius: 5px;
-            text-decoration: none;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>JSP</h1>
-    <p>L'intelligence artificielle au service de votre business</p>
-</header>
-
-<div class="container">
-    <div class="grid-ia">
-        <div class="card">
-            <h3>IA Ecommerce</h3>
-            <p>Optimisez vos fiches produits et analysez vos ventes.</p>
-            <a href="#" class="btn-launch">Lancer</a>
-        </div>
-
-        <div class="card">
-            <h3>IA Trading</h3>
-            <p>Analyses de marché et signaux de trading en temps réel.</p>
-            <a href="#" class="btn-launch">Lancer</a>
-        </div>
-
-        <div class="card">
-            <h3>IA TikTok</h3>
-            <p>Scripts viraux et analyse des tendances de l'algorithme.</p>
-            <a href="#" class="btn-launch">Lancer</a>
-        </div>
-
-        <div class="card">
-            <h3>IA Marketing</h3>
-            <p>Stratégies publicitaires et création de tunnels de vente.</p>
-            <a href="#" class="btn-launch">Lancer</a>
-        </div>
-
-        <div class="card">
-            <h3>IA YouTube</h3>
-            <p>Génération de titres, miniatures et scripts vidéos.</p>
-            <a href="#" class="btn-launch">Lancer</a>
-        </div>
-
-        <div class="card">
-            <h3>IA Instagram</h3>
-            <p>Planification de posts et optimisation de l'engagement.</p>
-            <a href="#" class="btn-launch">Lancer</a>
+    <div id="auth-page">
+        <div class="auth-card">
+            <h2>NOVA</h2>
+            <p style="font-size: 0.8rem; color: #888;">Connectez-vous pour accéder à l'écosystème</p>
+            <input type="text" placeholder="Nom d'utilisateur">
+            <input type="password" placeholder="Mot de passe">
+            <button class="btn-main" onclick="login()">Se Connecter / S'inscrire</button>
         </div>
     </div>
-</div>
+
+    <div id="main-content">
+        <header>
+            <h1 class="hero-title">NOVA</h1>
+            <p class="description">
+                L'intelligence artificielle spécialisée pour chaque pilier de votre succès. 
+                Que vous soyez trader, créateur de contenu ou entrepreneur, <strong>Nova</strong> analyse, 
+                génère et optimise vos résultats en temps réel grâce à ses modules dédiés.
+            </p>
+        </header>
+
+        <div class="grid-container">
+            <div class="card">
+                <span class="tag">Business</span>
+                <h3>Nova Ecom</h3>
+                <p>Analyse de niches gagnantes et rédaction de fiches produits optimisées SEO.</p>
+            </div>
+            <div class="card">
+                <span class="tag">Finance</span>
+                <h3>Nova Trade</h3>
+                <p>Signaux de marché basés sur l'analyse technique et le sentiment social.</p>
+            </div>
+            <div class="card">
+                <span class="tag">Viralité</span>
+                <h3>Nova TikTok</h3>
+                <p>Scripts à fort taux de rétention et détection de musiques tendances.</p>
+            </div>
+            <div class="card">
+                <span class="tag">Stratégie</span>
+                <h3>Nova Marketing</h3>
+                <p>Création de tunnels de vente et copywritting pour vos publicités.</p>
+            </div>
+            <div class="card">
+                <span class="tag">Vidéos</span>
+                <h3>Nova YouTube</h3>
+                <p>Optimisation du CTR (titres/miniatures) et chapitrage automatique.</p>
+            </div>
+            <div class="card">
+                <span class="tag">Social</span>
+                <h3>Nova Insta</h3>
+                <p>Génération de légendes engageantes et stratégies de croissance Reels.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Petite fonction pour simuler la connexion
+        function login() {
+            document.getElementById('auth-page').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+    </script>
 
 </body>
 </html>
