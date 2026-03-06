@@ -2,8 +2,7 @@
  * NOVA AI - Logique Centrale
  * Remplace les valeurs ci-dessous par tes propres clés API
  */
-const CONFIG = {
-    GEMINI_API_KEY: "AIzaSyB3kBGa0qjLCInHfegHdHS1O7ELBTHqmbM", // Pour le "cerveau" de Nova
+const CONFIG = {Pour le "cerveau" de Nova
     ALPHA_VANTAGE_KEY: "E44QH5JYTB41W3ET", // Pour les prix du Trading
     RAPID_API_KEY: "..." // Pour les tendances TikTok/Insta
 };
