@@ -3,195 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOVA - L'IA Multi-Services</title>
+    <title>NOVA - Dashboard IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --black: #050505;
-            --dark-grey: #121212;
-            --nova-purple: #9d4edd; /* Violet plus intense */
-            --nova-glow: #7b2cbf;
+            --bg-black: #050505;
+            --sidebar-bg: #0a0a0a;
+            --nova-purple: #8b5cf6;
+            --border: #1f1f1f;
             --text-main: #ffffff;
-            --text-dim: #a0a0a0;
+            --text-dim: #888;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--black);
-            color: var(--text-main);
-            scroll-behavior: smooth;
+        body {
+            margin: 0; font-family: 'Inter', sans-serif;
+            background: var(--bg-black); color: var(--text-main);
+            display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* --- SECTION AUTHENTIFICATION --- */
-        #auth-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%);
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px; background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; padding: 20px;
         }
 
-        .auth-card {
-            background: var(--dark-grey);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--nova-purple);
-            box-shadow: 0 0 30px rgba(157, 78, 221, 0.2);
-            width: 350px;
-            text-align: center;
+        .logo { font-weight: 800; font-size: 1.4rem; margin-bottom: 40px; color: var(--nova-purple); }
+
+        .nav-item {
+            padding: 12px 15px; border-radius: 8px; margin-bottom: 5px;
+            cursor: pointer; color: var(--text-dim); transition: 0.3s;
+            font-size: 0.9rem; display: flex; align-items: center;
         }
 
-        .auth-card h2 { color: var(--nova-purple); margin-bottom: 20px; }
+        .nav-item:hover, .nav-item.active {
+            background: rgba(139, 92, 246, 0.1); color: var(--nova-purple);
+        }
+
+        /* --- CHAT AREA --- */
+        .main-chat {
+            flex: 1; display: flex; flex-direction: column;
+            background: radial-gradient(circle at top right, #10081a, #050505);
+        }
+
+        .chat-header {
+            padding: 20px 40px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        #chat-window {
+            flex: 1; padding: 40px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .message { max-width: 80%; padding: 15px; border-radius: 12px; line-height: 1.5; }
+        .ai-msg { background: var(--sidebar-bg); border: 1px solid var(--border); align-self: flex-start; }
+        .user-msg { background: var(--nova-purple); color: white; align-self: flex-end; }
+
+        /* --- INPUT AREA --- */
+        .input-container {
+            padding: 30px 40px; background: linear-gradient(transparent, var(--bg-black));
+        }
+
+        .input-box {
+            background: #111; border: 1px solid var(--border);
+            padding: 15px 25px; border-radius: 100px;
+            display: flex; align-items: center; gap: 15px;
+        }
 
         input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: white;
-            box-sizing: border-box;
+            flex: 1; background: transparent; border: none;
+            color: white; outline: none; font-size: 1rem;
         }
 
-        .btn-main {
-            width: 100%;
-            padding: 12px;
-            background: var(--nova-purple);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-main:hover { background: var(--nova-glow); transform: scale(1.02); }
-
-        /* --- SECTION CONTENU (Masquée au début) --- */
-        #main-content { display: none; }
-
-        header {
-            padding: 60px 20px;
-            text-align: center;
-            background: linear-gradient(to bottom, #0f051a, var(--black));
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            background: linear-gradient(to right, #fff, var(--nova-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-
-        .description {
-            max-width: 700px;
-            margin: 20px auto;
-            color: var(--text-dim);
-            line-height: 1.6;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            padding: 50px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .card {
-            background: var(--dark-grey);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #222;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            border-color: var(--nova-purple);
-            box-shadow: 0 0 20px rgba(157, 78, 221, 0.15);
-        }
-
-        .card h3 { color: var(--nova-purple); margin-top: 0; }
-
-        .tag {
-            font-size: 0.7rem;
-            background: rgba(157, 78, 221, 0.2);
-            color: var(--nova-purple);
-            padding: 4px 10px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 10px;
+        .send-btn {
+            background: var(--nova-purple); border: none; color: white;
+            padding: 8px 18px; border-radius: 50px; cursor: pointer; font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <div id="auth-page">
-        <div class="auth-card">
-            <h2>NOVA</h2>
-            <p style="font-size: 0.8rem; color: #888;">Connectez-vous pour accéder à l'écosystème</p>
-            <input type="text" placeholder="Nom d'utilisateur">
-            <input type="password" placeholder="Mot de passe">
-            <button class="btn-main" onclick="login()">Se Connecter / S'inscrire</button>
+    <div class="sidebar">
+        <div class="logo">NOVA AI</div>
+        <div class="nav-item active" onclick="switchIA('E-commerce')">🛒 IA Ecommerce</div>
+        <div class="nav-item" onclick="switchIA('Trading')">📈 IA Trading</div>
+        <div class="nav-item" onclick="switchIA('TikTok')">📱 IA TikTok</div>
+        <div class="nav-item" onclick="switchIA('Marketing')">🎯 IA Marketing</div>
+        <div class="nav-item" onclick="switchIA('YouTube')">🎥 IA YouTube</div>
+        <div class="nav-item" onclick="switchIA('Instagram')">📸 IA Instagram</div>
+        
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #222;">
+            <div class="nav-item">⚙️ Paramètres</div>
         </div>
     </div>
 
-    <div id="main-content">
-        <header>
-            <h1 class="hero-title">NOVA</h1>
-            <p class="description">
-                L'intelligence artificielle spécialisée pour chaque pilier de votre succès. 
-                Que vous soyez trader, créateur de contenu ou entrepreneur, <strong>Nova</strong> analyse, 
-                génère et optimise vos résultats en temps réel grâce à ses modules dédiés.
-            </p>
-        </header>
+    <div class="main-chat">
+        <div class="chat-header">
+            <h2 id="current-ia-title">Nova E-commerce</h2>
+            <span style="color: var(--text-dim); font-size: 0.8rem;">Statut : Connecté</span>
+        </div>
 
-        <div class="grid-container">
-            <div class="card">
-                <span class="tag">Business</span>
-                <h3>Nova Ecom</h3>
-                <p>Analyse de niches gagnantes et rédaction de fiches produits optimisées SEO.</p>
+        <div id="chat-window">
+            <div class="message ai-msg">
+                Bonjour ! Je suis **Nova**, ton assistante spécialisée en <span id="ia-type-text">E-commerce</span>. Comment puis-je t'aider à exploser tes résultats aujourd'hui ?
             </div>
-            <div class="card">
-                <span class="tag">Finance</span>
-                <h3>Nova Trade</h3>
-                <p>Signaux de marché basés sur l'analyse technique et le sentiment social.</p>
-            </div>
-            <div class="card">
-                <span class="tag">Viralité</span>
-                <h3>Nova TikTok</h3>
-                <p>Scripts à fort taux de rétention et détection de musiques tendances.</p>
-            </div>
-            <div class="card">
-                <span class="tag">Stratégie</span>
-                <h3>Nova Marketing</h3>
-                <p>Création de tunnels de vente et copywritting pour vos publicités.</p>
-            </div>
-            <div class="card">
-                <span class="tag">Vidéos</span>
-                <h3>Nova YouTube</h3>
-                <p>Optimisation du CTR (titres/miniatures) et chapitrage automatique.</p>
-            </div>
-            <div class="card">
-                <span class="tag">Social</span>
-                <h3>Nova Insta</h3>
-                <p>Génération de légendes engageantes et stratégies de croissance Reels.</p>
+        </div>
+
+        <div class="input-container">
+            <div class="input-box">
+                <input type="text" id="user-input" placeholder="Pose ta question à Nova...">
+                <button class="send-btn" onclick="sendMessage()">Envoyer</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Petite fonction pour simuler la connexion
-        function login() {
-            document.getElementById('auth-page').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
+        function switchIA(type) {
+            // Changer le titre
+            document.getElementById('current-ia-title').innerText = 'Nova ' + type;
+            document.getElementById('ia-type-text').innerText = type;
+            
+            // Gérer l'état actif dans la sidebar
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Nettoyer le chat pour la nouvelle IA
+            document.getElementById('chat-window').innerHTML = `
+                <div class="message ai-msg">
+                    Mode <strong>Nova ${type}</strong> activé. Je suis prête. Que veux-tu savoir ?
+                </div>`;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const window = document.getElementById('chat-window');
+            
+            if (input.value.trim() !== "") {
+                // Message utilisateur
+                window.innerHTML += `<div class="message user-msg">${input.value}</div>`;
+                
+                // Simulation réponse IA
+                setTimeout(() => {
+                    window.innerHTML += `<div class="message ai-msg">Analyse en cours... (Connexion API Nova nécessaire pour une réponse réelle)</div>`;
+                    window.scrollTop = window.scrollHeight;
+                }, 1000);
+
+                input.value = "";
+                window.scrollTop = window.scrollHeight;
+            }
         }
     </script>
 
