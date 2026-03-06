@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSP - Votre Hub IA</title>
+    <style>
+        :root {
+            --bg-black: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --primary-purple: #bb86fc;
+            --text-white: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--primary-purple);
+        }
+
+        h1 {
+            color: var(--primary-purple);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 20px;
+        }
+
+        .grid-ia {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-purple);
+            box-shadow: 0 10px 20px rgba(187, 134, 252, 0.1);
+        }
+
+        .card h3 {
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        .btn-launch {
+            margin-top: 15px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-purple);
+            color: black;
+            font-weight: bold;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>JSP</h1>
+    <p>L'intelligence artificielle au service de votre business</p>
+</header>
+
+<div class="container">
+    <div class="grid-ia">
+        <div class="card">
+            <h3>IA Ecommerce</h3>
+            <p>Optimisez vos fiches produits et analysez vos ventes.</p>
+            <a href="#" class="btn-launch">Lancer</a>
+        </div>
+
+        <div class="card">
+            <h3>IA Trading</h3>
+            <p>Analyses de marché et signaux de trading en temps réel.</p>
+            <a href="#" class="btn-launch">Lancer</a>
+        </div>
+
+        <div class="card">
+            <h3>IA TikTok</h3>
+            <p>Scripts viraux et analyse des tendances de l'algorithme.</p>
+            <a href="#" class="btn-launch">Lancer</a>
+        </div>
+
+        <div class="card">
+            <h3>IA Marketing</h3>
+            <p>Stratégies publicitaires et création de tunnels de vente.</p>
+            <a href="#" class="btn-launch">Lancer</a>
+        </div>
+
+        <div class="card">
+            <h3>IA YouTube</h3>
+            <p>Génération de titres, miniatures et scripts vidéos.</p>
+            <a href="#" class="btn-launch">Lancer</a>
+        </div>
+
+        <div class="card">
+            <h3>IA Instagram</h3>
+            <p>Planification de posts et optimisation de l'engagement.</p>
+            <a href="#" class="btn-launch">Lancer</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
